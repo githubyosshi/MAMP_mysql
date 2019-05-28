@@ -26,7 +26,12 @@
   // }
 
   // $query = "SELECT * FROM users WHERE id = 1";
-  $query = "SELECT * FROM users WHERE email LIKE'R%@gmail.com'";
+  $name = "Rob O'Grady";
+  $query = "SELECT * FROM users WHERE name = '".mysqli_real_escape_string($link,$name)."'";
+
+  echo $query;
+  echo "<p>";
+  // $query = "SELECT * FROM users WHERE email LIKE'R%@gmail.com'";
 
   if($result = mysqli_query($link,$query)){
     // echo "クエリの発行に成功しました。";
