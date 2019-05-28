@@ -16,22 +16,24 @@
   /*
   $query = "UPDATE `users` SET email='syoshimoto@gmail.com' WHERE id=1 LIMIT 1";
   */
-  $query ="UPDATE `users` SET password='changeme' WHERE email='syoshimoto@gmail.com' LIMIT 1";
+  // $query ="UPDATE `users` SET password='changeme' WHERE email='syoshimoto@gmail.com' LIMIT 1";
 
-  mysqli_query($link, $query);
+  // mysqli_query($link, $query);
 
   // if($result = mysqli_query($link,$query)){
   //   echo "UPDATEクエリの発行に成功しました。";
   //   echo "<br>";
   // }
- 
 
-  $query = "SELECT * FROM users";
+  // $query = "SELECT * FROM users WHERE id = 1";
+  $query = "SELECT * FROM users WHERE email LIKE'R%@gmail.com'";
 
   if($result = mysqli_query($link,$query)){
-    echo "クエリの発行に成功しました。";
+    // echo "クエリの発行に成功しました。";
   }
-  $row = mysqli_fetch_array($result);
+  while($row = mysqli_fetch_array($result)){
+    print_r($row);
+  }
 
   // while($row = mysqli_fetch_array($result)){
   //   print_r($row);
@@ -39,9 +41,9 @@
 
   // print_r($row);
 
-  echo "あなたのメールアドレスは".$row['email']."、パスワードは".$row['password']."です。";
+  // echo "あなたのメールアドレスは".$row['email']."、パスワードは".$row['password']."です。";
 
-  echo "<p>";
+  // echo "<p>";
 
 /*
   echo "あなたのメールアドレスは".$row[1]."、パスワードは".$row[2]."です。";
