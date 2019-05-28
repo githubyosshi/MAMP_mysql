@@ -13,20 +13,29 @@
     echo "INSERTクエリの発行に成功しました。";
   }
   */
-  
-  // $query = "UPDATE `users` SET email='syoshimoto@gmail.com' WHERE id=1 LIMIT 1";
+  /*
+  $query = "UPDATE `users` SET email='syoshimoto@gmail.com' WHERE id=1 LIMIT 1";
+  */
   $query ="UPDATE `users` SET password='changeme' WHERE email='syoshimoto@gmail.com' LIMIT 1";
-  if($result = mysqli_query($link,$query)){
-    echo "UPDATEクエリの発行に成功しました。";
-    echo "<br>";
-  }
+
+  mysqli_query($link, $query);
+
+  // if($result = mysqli_query($link,$query)){
+  //   echo "UPDATEクエリの発行に成功しました。";
+  //   echo "<br>";
+  // }
+ 
 
   $query = "SELECT * FROM users";
 
   if($result = mysqli_query($link,$query)){
-  //  echo "クエリの発行に成功しました。";
+    echo "クエリの発行に成功しました。";
   }
   $row = mysqli_fetch_array($result);
+
+  // while($row = mysqli_fetch_array($result)){
+  //   print_r($row);
+  // }
 
   // print_r($row);
 
