@@ -1,97 +1,67 @@
 <?php
-  $link = mysqli_connect("localhost","root","root","memberapp");
-  // サーバー名、データベースユーザー名、パスワード
 
-  if(mysqli_connect_error()){
-    die("データベースへの接続に失敗しました。");
-  }
+    session_start();
 
-  /*
-  $query = "INSERT INTO `users` (`email`,`password`) VALUES ('kirsten@gmail.com','thereisnopassword')";
+    if (array_key_exists('email', $_POST) OR array_key_exists('password', $_POST)) {
 
-  if($result = mysqli_query($link,$query)){
-    echo "INSERTクエリの発行に成功しました。";
-  }
-  */
-  /*
-  $query = "UPDATE `users` SET email='syoshimoto@gmail.com' WHERE id=1 LIMIT 1";
-  */
-  // $query ="UPDATE `users` SET password='changeme' WHERE email='syoshimoto@gmail.com' LIMIT 1";
+        $link = mysqli_connect("localhost", "root", "root", "memberapp");
+                            // サーバー名、データベースユーザー名、パスワード
+            if (mysqli_connect_error()) {
 
-  // mysqli_query($link, $query);
+              die ("データベースへの接続に失敗しました。");
 
-  // if($result = mysqli_query($link,$query)){
-  //   echo "UPDATEクエリの発行に成功しました。";
-  //   echo "<br>";
-  // }
+            }
 
-  // $query = "SELECT * FROM users WHERE id = 1";
-  // $name = "Rob O'Grady";
-  // $query = "SELECT * FROM users WHERE name = '".mysqli_real_escape_string($link,$name)."'";
 
-  
-  // echo $query;
-  // echo "<p>";
-  // $query = "SELECT * FROM users WHERE email LIKE'R%@gmail.com'";
-  
-  // if($result = mysqli_query($link,$query)){
-    // echo "クエリの発行に成功しました。";
-    // }
-    // while($row = mysqli_fetch_array($result)){
-      //   print_r($row);
-      // }
-      
-      // while($row = mysqli_fetch_array($result)){
-        //   print_r($row);
-        // }
-        
-        // print_r($row);
-        
-        // echo "あなたのメールアドレスは".$row['email']."、パスワードは".$row['password']."です。";
-        
-        // echo "<p>";
-        
-        /*
-        echo "あなたのメールアドレスは".$row[1]."、パスワードは".$row[2]."です。";
-        echo "<p>";
-        echo "あなたのIDは".$row['id']."です。"
-        */
+        if ($_POST['email'] == '') {
 
-        if(array_key_exists('email',$_POST) OR array_key_exists('password',$_POST)){
-          // print_r($_POST);
-          if($_POST['email'] == ''){
-              echo "Eメールアドレスを入力してください";
-          } elseif($_POST['password'] == ''){
-              echo "パスワードを入力してください";
-          } else {
-              $query = "SELECT `id` FROM `users` WHERE email = '".mysqli_real_escape_string($link,$_POST['email'])."'";
-              $result = mysqli_query($link,$query);
-              // echo mysqli_num_rows($result);
-              if(mysqli_num_rows($result) > 0){
-                echo "すでにそのメールアドレスは使用されています。";
+            echo "Eメールアドレスを入力してください";
+
+        } else if ($_POST['password'] == '') {
+
+            echo "パスワードを入力してください";
+
+        } else {
+
+            $query = "SELECT `id` FROM `users` WHERE email = '".mysqli_real_escape_string($link, $_POST['email'])."'";
+
+            $result = mysqli_query($link, $query);
+
+            if (mysqli_num_rows($result) > 0) {
+
+              echo "すでにそのメールアドレスは使用されています。";
+
+            } else {
+              // 未使用の場合の処理を記述
+                $query = "INSERT INTO `users` (`email`, `password`) VALUES ('".mysqli_real_escape_string($link, $_POST['email'])."', '".mysqli_real_escape_string($link, $_POST['password'])."')";
+                  // print_r($_POST['password']);
+              if (mysqli_query($link, $query)) {
+
+                  $_SESSION['email'] = $_POST['email'];
+                  header("Location: session.php");
               } else {
-                // 未使用の場合の処理を記述
-                  $query = "INSERT INTO `users` (`email`,`password`) VALUES('".mysqli_real_escape_string($link,$_POST['email'])."','".mysqli_real_escape_string($link,$_POST['password'])."')";
-                  if(mysqli_query($link,$query)){
-                      echo "登録されました！";
-                  } else {
-                      echo "登録に失敗しました！";
-                  }
+
+                  echo "登録に失敗しました！";
               }
+            }
           }
         }
-/*
-1.Eメールとパスワードの入力フォーム、「登録する」ボタンを設置する
-2.データが入力されているか
-3.メールアドレスが既に使用されていないかチェックする
-4.重複がなければユーザ登録（データベーステーブルに追加する）を実行する
-5.ユーザ登録に成功しました、というメッセージを表示する
-*/
+        /*
+        1.Eメールとパスワードの入力フォーム、「登録する」ボタンを設置する
+        2.データが入力されているか
+        3.メールアドレスが既に使用されていないかチェックする
+        4.重複がなければユーザ登録（データベーステーブルに追加する）を実行する
+        5.ユーザ登録に成功しました、というメッセージを表示する
+        */
+        
+        ?>
+        <!-- // echo "登録されました！"; -->
+        <!-- // print_r($_POST['email']); -->
+        <!-- // print_r($_SESSION['email']); -->
 
-?>
 
-<form method="post">
+<form method = "post">
     <input name="email" type="text" placeholder="Eメール">
     <input name="password" type="password" placeholder="パスワード">
-    <input type="submit" value="登録する">
+    <input type="submit" value = "登録する">
 </form>
