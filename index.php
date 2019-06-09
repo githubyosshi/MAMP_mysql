@@ -1,14 +1,13 @@
 <?php
 
-setcookie("customerId","test",time() + 60 * 60 * 24);
-// setcookie("customerId","",time() - 60 * 60 * 24);
+// echo md5("password");    //md5に登録のハッシュ
+// https://crackstation.net
 
-echo $_COOKIE["customerId"];
+$salt ="dfdsfshg";
+
+$row['id'] = 73;
+
+// echo md5($salt."password");
+echo md5(md5($row['id'])."password");
 
 ?>
-
-<form method = "post">
-    <input name="email" type="text" placeholder="Eメール">
-    <input name="password" type="password" placeholder="パスワード">
-    <input type="submit" value = "登録する">
-</form>
